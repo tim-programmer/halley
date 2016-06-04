@@ -5,6 +5,7 @@ timelines:
     - Time
     - Movement
     - SpriteAnimation
+    - TestLua
   render:
     - Render
 ...

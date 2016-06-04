@@ -54,6 +54,9 @@ strategy: global
 system: SpawnSprite
 access: ['world', 'api']
 ---
+system: TestLua
+strategy: global
+---
 message: Expire
 members:
   - time: float

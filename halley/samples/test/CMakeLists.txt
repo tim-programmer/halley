@@ -15,6 +15,7 @@ set (${PROJECT_NAME}_sources
 		"src/systems/render_system.cpp"
 		"src/systems/spawn_sprite_system.cpp"
 		"src/systems/sprite_animation_system.cpp"
+		"src/systems/test_lua_system.cpp"
 		"src/systems/time_system.cpp"
 		
 		${${PROJECT_NAME}_sources_gen}
@@ -23,6 +24,7 @@ set (${PROJECT_NAME}_sources
 set (${PROJECT_NAME}_headers
 		"prec.h"
 		"src/test_stage.h"
+		"gen_src/test.yaml"
 		
 		${${PROJECT_NAME}_headers_gen}
 		)
