@@ -46,6 +46,7 @@ set(LIBS
 		${YAMLCPP_LIBRARY}
 		${Boost_FILESYSTEM_LIBRARY}
 		${Boost_SYSTEM_LIBRARY}
+		${Boost_THREAD_LIBRARY}
 		${EXTRA_LIBS}
 		)
 
@@ -57,6 +58,8 @@ else()
 	add_definitions(-DHALLEY_EXECUTABLE)
 endif()
 target_link_libraries(${PROJECT_NAME} ${LIBS})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 if(MSVC)
 	add_precompiled_header(${PROJECT_NAME} prec.h FORCEINCLUDE SOURCE_CXX prec.cpp)

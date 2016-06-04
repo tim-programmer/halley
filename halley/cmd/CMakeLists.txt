@@ -13,6 +13,7 @@ endif()
 assign_source_group(${SOURCES})
 
 add_executable (halley-cmd ${SOURCES})
+
 target_link_libraries (halley-cmd
         halley-tools
         halley-utils
@@ -20,5 +21,6 @@ target_link_libraries (halley-cmd
         ${YAMLCPP_LIBRARY}
         ${Boost_FILESYSTEM_LIBRARY}
         ${Boost_SYSTEM_LIBRARY}
+		${Boost_THREAD_LIBRARY}
         ${EXTRA_LIBS}
         )

@@ -22,11 +22,14 @@ assign_source_group(${SOURCES})
 assign_source_group(${HEADERS})
 
 add_executable (halley-runner ${SOURCES} ${HEADERS})
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
+
 target_link_libraries (halley-runner
 		halley-utils
 		${SDL2_LIBRARIES}
         ${Boost_FILESYSTEM_LIBRARY}
         ${Boost_SYSTEM_LIBRARY}
+		${Boost_THREAD_LIBRARY}
         ${EXTRA_LIBS}
         )
 
