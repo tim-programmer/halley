@@ -56,6 +56,9 @@ access: ['world', 'api']
 ---
 system: TestLua
 strategy: global
+families:
+  - main:
+    - Velocity: write
 ---
 message: Expire
 members:
