@@ -11,7 +11,7 @@ using namespace Halley;
 static int luaPrint(lua_State* state);
 static int luaGetFamilyName(lua_State* state);
 static int luaGetFamilyCount(lua_State* state);
-static int luaGetFamilyEntry(lua_State* state);
+static int luaGetFamilyEntries(lua_State* state);
 
 class TestLuaSystem final : public TestLuaSystemBase<TestLuaSystem> {
 public:
@@ -74,7 +74,7 @@ private:
 			{ "print", luaPrint },
 			{ "getFamilyName", luaGetFamilyName },
 			{ "getFamilyCount", luaGetFamilyCount },
-			{ "getFamilyEntry", luaGetFamilyEntry },
+			{ "getFamilyEntries", luaGetFamilyEntries },
 			{ nullptr, nullptr }
 		};
 		luaL_openlib(state, "Halley", halleyLib, 0);
@@ -135,25 +135,35 @@ static int luaGetFamilyCount(lua_State* state)
 	return 1;
 }
 
-static int luaGetFamilyEntry(lua_State* state)
+static int luaGetFamilyEntries(lua_State* state)
 {
-	// First parameter is the return value. Consume the other three.
-	auto system = reinterpret_cast<TestLuaSystem*>(lua_touserdata(state, -3));
-	long long familyN = lua_tointeger(state, -2);
-	long long memberIdx = lua_tointeger(state, -1);
-	lua_pop(state, 3);
+	// First parameter is the return value. Consume the other two.
+	auto system = reinterpret_cast<TestLuaSystem*>(lua_touserdata(state, -2));
+	long long familyN = lua_tointeger(state, -1);
+	lua_pop(state, 2);
 
-	// Gather data
-	auto& entry = system->getFamilyEntry(familyN, memberIdx);
+	size_t n = system->getFamilyCount(familyN);
+	for (size_t i = 0; i < n; i++) {
+		auto& entry = system->getFamilyEntry(familyN, i);
 
-	// Write it all back to Lua. lol, performance. lol, hacks.
-	auto vel = entry.velocity->velocity;
-	lua_pushstring(state, "vel_x");
-	lua_pushnumber(state, vel.x);
-	lua_settable(state, -3);
-	lua_pushstring(state, "vel_y");
-	lua_pushnumber(state, vel.y);
-	lua_settable(state, -3);
+		// Get table
+		lua_rawgeti(state, -1, i + 1);
+		if (lua_isnil(state, -1)) {
+			lua_pop(state, 1);
+			lua_createtable(state, 0, 2);
+			lua_rawseti(state, -2, i + 1);
+			lua_rawgeti(state, -1, i + 1);
+		}
+
+		// Write it all back to Lua. lol, performance. lol, hacks.
+		auto vel = entry.velocity->velocity;
+		lua_pushstring(state, "vel_x");
+		lua_pushnumber(state, vel.x);
+		lua_settable(state, -3);
+		lua_pushstring(state, "vel_y");
+		lua_pushnumber(state, vel.y);
+		lua_settable(state, -3);
+	}
 
 	lua_pop(state, 1);
 	return 0;

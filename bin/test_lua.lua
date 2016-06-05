@@ -23,14 +23,7 @@ function makeUpdate(systemPtr, numFamilies)
     return function(time)
         for i = 1, numFamilies do
             local elems = familiesList[i].elems
-            local n = Halley.getFamilyCount(systemPtr, 0)
-            
-            for j = 1, n do
-                if (elems[j] == nil) then
-                    elems[j] = {}
-                end
-                Halley.getFamilyEntry(elems[j], systemPtr, i - 1, j - 1)
-            end
+            Halley.getFamilyEntries(elems, systemPtr, i - 1)
         end
         
         update(time, families)
