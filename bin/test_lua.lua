@@ -1,10 +1,8 @@
 local function update(time, families)
-    local a = 0
     local elems = families["mainFamily"].elems
-    for j = 1, #elems do
-        a = a + 1
+    for i = 1, #elems do
+        local e = elems[i]
     end
-    Halley.print("Updated " .. a .. " elements.")
 end
 
 function makeUpdate(systemPtr, numFamilies)
@@ -16,6 +14,7 @@ function makeUpdate(systemPtr, numFamilies)
         local fam = {}
         fam.idx = i
         fam.name = name
+        fam.elems = {}
 
         families[name] = fam
         familiesList[i] = fam
@@ -23,15 +22,15 @@ function makeUpdate(systemPtr, numFamilies)
     
     return function(time)
         for i = 1, numFamilies do
-            Halley.print("Time is " .. time .. ", family is " .. i)
-            local elems = {}
-            local n = Halley.getFamilyCount(systemPtr, i - 1)
+            local elems = familiesList[i].elems
+            local n = Halley.getFamilyCount(systemPtr, 0)
             
             for j = 1, n do
-                elems[j] = {}
-                Halley.getFamilyEntry(systemPtr, i - 1, j - 1, elems[j])
+                if (elems[j] == nil) then
+                    elems[j] = {}
+                end
+                Halley.getFamilyEntry(elems[j], systemPtr, i - 1, j - 1)
             end
-            familiesList[i].elems = elems
         end
         
         update(time, families)

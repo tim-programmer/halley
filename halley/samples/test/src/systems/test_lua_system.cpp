@@ -119,8 +119,8 @@ static int luaPrint(lua_State* state)
 
 static int luaGetFamilyName(lua_State* state)
 {
-	auto system = reinterpret_cast<TestLuaSystem*>(lua_touserdata(state, -1));
-	long long n = lua_tointeger(state, -2);
+	auto system = reinterpret_cast<TestLuaSystem*>(lua_touserdata(state, -2));
+	long long n = lua_tointeger(state, -1);
 	lua_pop(state, 2);
 	lua_pushstring(state, system->getFamilyName(int(n)).c_str());
 	return 1;
@@ -128,8 +128,8 @@ static int luaGetFamilyName(lua_State* state)
 
 static int luaGetFamilyCount(lua_State* state)
 {
-	auto system = reinterpret_cast<TestLuaSystem*>(lua_touserdata(state, -1));
-	long long familyN = lua_tointeger(state, -2);
+	auto system = reinterpret_cast<TestLuaSystem*>(lua_touserdata(state, -2));
+	long long familyN = lua_tointeger(state, -1);
 	lua_pop(state, 2);
 	lua_pushinteger(state, system->getFamilyCount(familyN));
 	return 1;
@@ -137,16 +137,24 @@ static int luaGetFamilyCount(lua_State* state)
 
 static int luaGetFamilyEntry(lua_State* state)
 {
-	auto system = reinterpret_cast<TestLuaSystem*>(lua_touserdata(state, -1));
+	// First parameter is the return value. Consume the other three.
+	auto system = reinterpret_cast<TestLuaSystem*>(lua_touserdata(state, -3));
 	long long familyN = lua_tointeger(state, -2);
-	long long memberIdx = lua_tointeger(state, -3);
+	long long memberIdx = lua_tointeger(state, -1);
 	lua_pop(state, 3);
 
-	// Fourth parameter is the destination object
-
+	// Gather data
 	auto& entry = system->getFamilyEntry(familyN, memberIdx);
 
-	// Return passed object
+	// Write it all back to Lua. lol, performance. lol, hacks.
+	auto vel = entry.velocity->velocity;
+	lua_pushstring(state, "vel_x");
+	lua_pushnumber(state, vel.x);
+	lua_settable(state, -3);
+	lua_pushstring(state, "vel_y");
+	lua_pushnumber(state, vel.y);
+	lua_settable(state, -3);
 
-	return 1;
+	lua_pop(state, 1);
+	return 0;
 }
