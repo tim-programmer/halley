@@ -136,6 +136,11 @@ bool AudioClip::isLoaded() const
 	return AsyncResource::isLoaded();
 }
 
+bool AudioClip::isStreaming() const
+{
+	return streaming;
+}
+
 std::shared_ptr<AudioClip> AudioClip::loadResource(ResourceLoader& loader)
 {
 	auto meta = loader.getMeta();
@@ -218,4 +223,64 @@ size_t StreamingAudioClip::getSamplesLeft() const
 {
 	std::unique_lock<std::mutex> lock(mutex);
 	return buffers.at(0).size();
+}
+
+BufferedAudioClip::BufferedAudioClip(std::shared_ptr<const IAudioClip> clip)
+	: clip(std::move(clip))
+	, numChannels(this->clip->getNumberOfChannels())
+	, length(this->clip->getLength())
+	, loopPoint(this->clip->getLoopPoint())
+{
+	setupBuffers();
+	loadDataIfNeeded();
+}
+
+size_t BufferedAudioClip::copyChannelData(size_t channelN, size_t pos, size_t len, gsl::span<AudioConfig::SampleFormat> dst) const
+{
+	return clip->copyChannelData(channelN, pos, len, dst);
+}
+
+size_t BufferedAudioClip::getNumberOfChannels() const
+{
+	return numChannels;
+}
+
+size_t BufferedAudioClip::getLength() const
+{
+	return length;
+}
+
+size_t BufferedAudioClip::getLoopPoint() const
+{
+	return loopPoint;
+}
+
+bool BufferedAudioClip::isLoaded() const
+{
+	if (loaded) {
+		return true;
+	}
+	if (!startedLoading) {
+		loadDataIfNeeded();
+	}
+	return false;
+}
+
+void BufferedAudioClip::setupBuffers()
+{
+	idleBuffers.resize(numChannels * 2);
+	for (auto& b: idleBuffers) {
+		b.resize(256 * 1024);
+	}
+}
+
+void BufferedAudioClip::loadDataIfNeeded() const
+{
+	if (clip->isLoaded()) {
+		startedLoading = true;
+
+		if (idleBuffers.size() > 0) {
+			
+		}
+	}
 }

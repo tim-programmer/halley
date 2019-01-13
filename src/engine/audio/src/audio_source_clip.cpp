@@ -6,7 +6,7 @@ using namespace Halley;
 
 
 AudioSourceClip::AudioSourceClip(std::shared_ptr<const IAudioClip> c, bool looping, int64_t delaySamples)
-	: clip(std::move(c))
+	: clip(c->isStreaming() ? std::make_shared<BufferedAudioClip>(std::move(c)) : std::move(c))
 	, playbackPos(-delaySamples)
 	, looping(looping)
 {

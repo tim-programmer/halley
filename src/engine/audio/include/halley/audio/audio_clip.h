@@ -18,6 +18,7 @@ namespace Halley
 		virtual size_t getLength() const = 0; // in samples
 		virtual size_t getLoopPoint() const { return 0; } // in samples
 		virtual bool isLoaded() const { return true; }
+		virtual bool isStreaming() const { return false; }
 	};
 
 	class AudioClip : public AsyncResource, public IAudioClip
@@ -36,6 +37,7 @@ namespace Halley
 		size_t getLength() const override; // in samples
 		size_t getLoopPoint() const override; // in samples
 		bool isLoaded() const override;
+		bool isStreaming() const override;
 
 		static std::shared_ptr<AudioClip> loadResource(ResourceLoader& loader);
 		constexpr static AssetType getAssetType() { return AssetType::AudioClip; }
@@ -72,5 +74,32 @@ namespace Halley
 		size_t length = 0;
 		mutable std::vector<std::vector<AudioConfig::SampleFormat>> buffers;
 		mutable std::mutex mutex;
+	};
+
+	class BufferedAudioClip : public IAudioClip {
+	public:
+		BufferedAudioClip(std::shared_ptr<const IAudioClip> clip);
+
+		size_t copyChannelData(size_t channelN, size_t pos, size_t len, gsl::span<AudioConfig::SampleFormat> dst) const override;
+		size_t getNumberOfChannels() const override;
+		size_t getLength() const override;
+		size_t getLoopPoint() const override; // in samples
+		bool isLoaded() const override;
+
+	private:
+		std::shared_ptr<const IAudioClip> clip;
+		size_t numChannels;
+		size_t length;
+		size_t loopPoint;
+		mutable size_t streamPos = 0;
+		mutable bool startedLoading = false;
+		mutable bool loaded = false;
+
+		mutable std::vector<std::vector<AudioConfig::SampleFormat>> readyBuffers;
+		mutable std::vector<std::vector<AudioConfig::SampleFormat>> idleBuffers;
+		mutable std::mutex mutex;
+
+		void setupBuffers();
+		void loadDataIfNeeded() const;
 	};
 }
