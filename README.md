@@ -28,7 +28,7 @@ Make sure to check out the [Halley-template](https://github.com/amzeratul/halley
 ## Modules
 Halley is divided in a several sub-projects:
 * **engine**
-  * **core**: Core features of the engine, including looper, API management, resouces, and graphics engine
+  * **core**: Core features of the engine, including looper, API management, resources, and graphics engine
   * **audio**: Audio engine
   * **entity**: Framework for dealing with entities, components, and systems
   * **utils**: Utilities library
@@ -80,9 +80,17 @@ The following platforms are supported:
 ### Set up
 * Ensure that all dependencies above are set up correctly
 * Build with CMake
-  * Typical: "cmake -DCMAKE_INCLUDE_PATH=path/to/headers -DCMAKE_LIBRARY_PATH=path/to/libs -DBOOST_ROOT=path/to/boost .."
-  * Engine only: "cmake -DBUILD_HALLEY_TOOLS=0 -DBUILD_HALLEY_TESTS=0 [...]"
-* Run "halley-editor tests/entity" (or whichever other project you want to test)
+  * Typical:  
+     ```
+     cmake -DCMAKE_INCLUDE_PATH=path/to/headers \
+           -DCMAKE_LIBRARY_PATH=path/to/libs \
+           -DBOOST_ROOT=path/to/boost ..
+     ```
+  * Engine only:
+    ```
+    cmake -DBUILD_HALLEY_TOOLS=0 -DBUILD_HALLEY_TESTS=0 [...]
+    ```
+* Run `halley-editor tests/entity` (or whichever other project you want to test)
 * Launch that project
 
 ## Documentation
