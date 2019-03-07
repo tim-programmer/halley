@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <memory>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "halley/resources/resource_data.h"
 
 namespace Halley

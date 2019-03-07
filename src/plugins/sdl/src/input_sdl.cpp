@@ -24,7 +24,7 @@
 #include "input_mouse_sdl.h"
 #include "input_keyboard_sdl.h"
 #include "halley/core/input/input_touch.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "halley/support/console.h"
 #include "halley/text/string_converter.h"
 

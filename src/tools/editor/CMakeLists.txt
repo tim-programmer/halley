@@ -53,6 +53,7 @@ add_dependencies(halley-editor halley-cmd halley-core halley-net halley-sdl hall
 
 target_link_libraries (halley-editor
         halley-tools
+		SDL2::SDL2main SDL2::SDL2-static
         ${FREETYPE_LIBRARIES}
         ${YAMLCPP_LIBRARY}
         ${Boost_FILESYSTEM_LIBRARY}

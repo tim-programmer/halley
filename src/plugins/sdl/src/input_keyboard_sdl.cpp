@@ -19,7 +19,7 @@
 
 \*****************************************************************/
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "input_keyboard_sdl.h"
 #include "halley/core/input/input_keys.h"
 using namespace Halley;

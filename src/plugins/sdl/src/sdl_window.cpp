@@ -1,6 +1,6 @@
 #include "sdl_window.h"
 #include "halley/os/os.h"
-#include <SDL_syswm.h>
+#include <SDL2/SDL_syswm.h>
 
 // win32 crap
 #ifdef max

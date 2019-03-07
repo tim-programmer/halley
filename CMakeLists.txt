@@ -2,6 +2,19 @@ cmake_minimum_required (VERSION 3.0)
 
 project (halley)
 
+set(CompilerFlags
+        CMAKE_CXX_FLAGS
+        CMAKE_CXX_FLAGS_DEBUG
+        CMAKE_CXX_FLAGS_RELEASE
+        CMAKE_C_FLAGS
+        CMAKE_C_FLAGS_DEBUG
+        CMAKE_C_FLAGS_RELEASE
+        )
+
+foreach(CompilerFlag ${CompilerFlags})
+  string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+endforeach()
+
 if (NOT HALLEY_PROJECT_EMBED)
     set(HALLEY_PATH ${CMAKE_CURRENT_SOURCE_DIR})
     set(BUILD_HALLEY_TOOLS 1 CACHE BOOL "Build editor and commandline tools")

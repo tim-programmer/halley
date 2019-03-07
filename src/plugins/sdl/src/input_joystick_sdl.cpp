@@ -19,8 +19,8 @@
 
 \*****************************************************************/
 
-#include <SDL.h>
-#include <SDL_joystick.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_joystick.h>
 #include "input_joystick_sdl.h"
 #include <iostream>
 #include <halley/utils/utils.h>

@@ -19,7 +19,7 @@
 
 \*****************************************************************/
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "input_mouse_sdl.h"
 
 using namespace Halley;

@@ -15,13 +15,14 @@ assign_source_group(${SOURCES})
 
 add_executable (halley-cmd ${SOURCES})
 
-target_link_libraries (halley-cmd
+target_link_libraries (halley-cmd PRIVATE 
         halley-tools
         halley-utils
         halley-audio
         ${FREETYPE_LIBRARIES}
-        ${YAMLCPP_LIBRARY}
+        #${YAMLCPP_LIBRARY}
         ${Boost_FILESYSTEM_LIBRARY}
         ${Boost_SYSTEM_LIBRARY}
-        ${EXTRA_LIBS}
+        ${EXTRA_LIBS}		
+		yaml-cpp
         )

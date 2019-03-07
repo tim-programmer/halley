@@ -1,7 +1,8 @@
 if (MSVC)
-    set(YAMLCPP_LIBRARY "")
+    #set(YAMLCPP_LIBRARY "")
+	find_package(yaml-cpp CONFIG REQUIRED)
 else ()
-    find_package(YamlCpp)
+    find_package(yaml-cpp REQUIRED)
 endif ()
 
 find_package(Boost COMPONENTS system filesystem REQUIRED)

@@ -26,7 +26,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POS
 
 target_link_libraries (halley-runner
 		halley-utils
-		${SDL2_LIBRARIES}
+		SDL2::SDL2main SDL2::SDL2-static
         ${Boost_FILESYSTEM_LIBRARY}
         ${Boost_SYSTEM_LIBRARY}
         ${EXTRA_LIBS}

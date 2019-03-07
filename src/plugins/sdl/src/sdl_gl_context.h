@@ -1,6 +1,6 @@
 #pragma once
 #include "halley/core/api/system_api.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 namespace Halley
 {

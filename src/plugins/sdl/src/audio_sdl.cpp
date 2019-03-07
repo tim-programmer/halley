@@ -1,5 +1,5 @@
 #include "audio_sdl.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <cstdint>
 #include "halley/text/string_converter.h"
 #include "halley/support/logger.h"

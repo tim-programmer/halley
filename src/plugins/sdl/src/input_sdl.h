@@ -23,7 +23,7 @@
 
 #include "halley/core/api/halley_api_internal.h"
 #include <map>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "input_joystick_sdl.h"
 
 namespace Halley {

@@ -147,6 +147,7 @@ target_link_libraries (halley-tools
     halley-core
     halley-audio
     halley-net
+	yaml-cpp
     ${FREETYPE_LIBRARIES}
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_SYSTEM_LIBRARY}
