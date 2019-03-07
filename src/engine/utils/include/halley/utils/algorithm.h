@@ -57,7 +57,7 @@ namespace Halley
 	}
 
 	template<typename Iter, typename R>
-	auto pickRandom(Iter begin, Iter end, R rng) -> decltype(*begin)
+	auto pickRandom(Iter begin, Iter end, R& rng) -> decltype(*begin)
 	{
 		Expects(begin != end);
 		auto size = end - begin;
